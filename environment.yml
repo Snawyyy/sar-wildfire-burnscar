@@ -1,0 +1,17 @@
+name: sar-fire
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - gdal
+  - pyroSAR
+  - snap
+  - rasterio
+  - geopandas
+  - numpy
+  - scikit-image
+  - jupyterlab
+  - pip
+  - pip:
+      - git+https://github.com/senbox-org/snapista.git
+

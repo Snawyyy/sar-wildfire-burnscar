@@ -1,0 +1,110 @@
+###############################################################################
+# ️ SAR-Wildfire Project – .gitignore
+#  Keep this in sync with README folder layout & Git LFS rules
+###############################################################################
+
+############################
+#  Python backend / generic
+############################
+# virtual envs
+.venv/
+backend/venv/
+
+# byte-compiled & C-extensions
+*.py[cod]
+*$py.class
+*.so
+__pycache__/
+backend/__pycache__/
+
+# build / packaging artefacts
+.Python
+build/
+dist/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+############################
+#  Jupyter notebooks
+############################
+.ipynb_checkpoints/
+
+############################
+#  Node / front-end (if used)
+############################
+frontend/
+frontend/node_modules/
+frontend/dist/
+# Yarn / pnpm
+.yarn/
+.pnp.*
+.npm/
+
+############################
+#  Data & large binaries
+############################
+data/raw/                               # zipped SAFE scenes (LFS / offline)
+data/processed/                         # workflow outputs
+data/processed/processing_output/       # temp burn-scar rasters
+!data/README.md
+
+# imagery & rasters (tracked via Git LFS)
+*.tif
+*.tiff
+*.SAFE
+*.zip
+
+############################
+#  Pipeline artefacts
+############################
+dags/                                   # old Airflow DAGs
+logs/                                   # Airflow & app logs
+backend/                                # legacy FastAPI service
+
+############################
+#  Figures / docs
+############################
+figures/*
+!figures/README.md
+
+############################
+#  Secrets & local config
+############################
+.env
+*.env
+secrets.ini
+
+############################
+#  Logs & reports
+############################
+*.log
+
+############################
+#  IDE / Editor cruft
+############################
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+############################
+#  OS-level cruft
+############################
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+*.swp
+*~
+data/processed/processing_output/
