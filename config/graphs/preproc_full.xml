@@ -1,0 +1,169 @@
+<graph id="Graph">
+  <version>1.0</version>
+
+  <!-- Branch 1: Post-Event Image Processing -->
+  <node id="Read_Post">
+    <operator>Read</operator>
+    <sources/>
+    <parameters>
+      <file>${master}</file>
+    </parameters>
+  </node>
+  <node id="Subset_Post">
+      <operator>Subset</operator>
+      <sources>
+          <sourceProduct refid="Read_Post"/>
+      </sources>
+      <parameters>
+          <copyMetadata>true</copyMetadata>
+          <geoRegion>${aoi}</geoRegion> 
+      </parameters>
+  </node>
+  <node id="Apply-Orbit-File_Post">
+    <operator>Apply-Orbit-File</operator>
+    <sources>
+      <sourceProduct refid="Subset_Post"/>
+    </sources>
+    <parameters>
+      <orbitType>Sentinel Precise (Auto Download)</orbitType>
+      <polyDegree>3</polyDegree>
+      <continueOnFail>false</continueOnFail>
+    </parameters>
+  </node>
+  <node id="ThermalNoiseRemoval_Post">
+    <operator>ThermalNoiseRemoval</operator>
+    <sources>
+      <sourceProduct refid="Apply-Orbit-File_Post"/>
+    </sources>
+    <parameters>
+      <removeThermalNoise>true</removeThermalNoise>
+    </parameters>
+  </node>
+  <node id="Calibration_Post">
+    <operator>Calibration</operator>
+    <sources>
+      <sourceProduct refid="ThermalNoiseRemoval_Post"/>
+    </sources>
+    <parameters>
+      <selectedPolarisations/>
+      <outputSigmaBand>true</outputSigmaBand>
+    </parameters>
+  </node>
+  <node id="Speckle-Filter_Post">
+    <operator>Speckle-Filter</operator>
+    <sources>
+      <sourceProduct refid="Calibration_Post"/>
+    </sources>
+    <parameters>
+      <filter>Lee Sigma</filter>
+      <filterSizeX>3</filterSizeX>
+      <filterSizeY>3</filterSizeY>
+    </parameters>
+  </node>
+  <node id="Terrain-Correction_Post">
+    <operator>Terrain-Correction</operator>
+    <sources>
+      <sourceProduct refid="Speckle-Filter_Post"/>
+    </sources>
+    <parameters>
+      <demName>SRTM 3Sec</demName>
+      <pixelSpacingInMeter>10.0</pixelSpacingInMeter>
+      <!-- 'saveSelectedSourceBand' removed to ensure all bands are passed through -->
+    </parameters>
+  </node>
+
+  <!-- Branch 2: Pre-Event Image Processing -->
+  <node id="Read_Pre">
+    <operator>Read</operator>
+    <sources/>
+    <parameters>
+      <file>${slave}</file>
+    </parameters>
+  </node>
+  <node id="Subset_Pre">
+      <operator>Subset</operator>
+      <sources>
+          <sourceProduct refid="Read_Pre"/>
+      </sources>
+      <parameters>
+          <copyMetadata>true</copyMetadata>
+          <geoRegion>${aoi}</geoRegion> 
+      </parameters>
+  </node>
+  <node id="Apply-Orbit-File_Pre">
+    <operator>Apply-Orbit-File</operator>
+    <sources>
+      <sourceProduct refid="Subset_Pre"/>
+    </sources>
+    <parameters>
+      <orbitType>Sentinel Precise (Auto Download)</orbitType>
+      <polyDegree>3</polyDegree>
+      <continueOnFail>false</continueOnFail>
+    </parameters>
+  </node>
+  <node id="ThermalNoiseRemoval_Pre">
+    <operator>ThermalNoiseRemoval</operator>
+    <sources>
+      <sourceProduct refid="Apply-Orbit-File_Pre"/>
+    </sources>
+    <parameters>
+      <removeThermalNoise>true</removeThermalNoise>
+    </parameters>
+  </node>
+  <node id="Calibration_Pre">
+    <operator>Calibration</operator>
+    <sources>
+      <sourceProduct refid="ThermalNoiseRemoval_Pre"/>
+    </sources>
+    <parameters>
+      <selectedPolarisations/>
+      <outputSigmaBand>true</outputSigmaBand>
+    </parameters>
+  </node>
+  <node id="Speckle-Filter_Pre">
+    <operator>Speckle-Filter</operator>
+    <sources>
+      <sourceProduct refid="Calibration_Pre"/>
+    </sources>
+    <parameters>
+      <filter>Lee Sigma</filter>
+      <filterSizeX>3</filterSizeX>
+      <filterSizeY>3</filterSizeY>
+    </parameters>
+  </node>
+  <node id="Terrain-Correction_Pre">
+    <operator>Terrain-Correction</operator>
+    <sources>
+      <sourceProduct refid="Speckle-Filter_Pre"/>
+    </sources>
+    <parameters>
+      <demName>SRTM 3Sec</demName>
+      <pixelSpacingInMeter>10.0</pixelSpacingInMeter>
+      <!-- 'saveSelectedSourceBand' removed to ensure all bands are passed through -->
+    </parameters>
+  </node>
+  
+  <!-- Combine Branches -->
+  <node id="CreateStack">
+    <operator>CreateStack</operator>
+    <sources>
+      <sourceProduct refid="Terrain-Correction_Post"/>
+      <sourceProduct.1 refid="Terrain-Correction_Pre"/>
+    </sources>
+    <parameters>
+      <resamplingType>NONE</resamplingType>
+      <extent>Master</extent>
+      <initialOffsetMethod>Orbit</initialOffsetMethod>
+    </parameters>
+  </node>
+  <node id="Write">
+    <operator>Write</operator>
+    <sources>
+      <sourceProduct refid="CreateStack"/>
+    </sources>
+    <parameters>
+      <file>${output}</file>
+      <formatName>GeoTIFF-BigTIFF</formatName>
+    </parameters>
+  </node>
+</graph>
