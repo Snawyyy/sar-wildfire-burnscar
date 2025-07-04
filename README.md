@@ -10,12 +10,12 @@
 ```text
 .
 ├── README.md              ← you are here
-├── LICENSE                ← MIT by default; change if needed
+├── LICENSE                ← MIT
 ├── environment.yml        ← Conda environment (snap, pyroSAR, gdal, etc.)
 ├── requirements.txt       ← pip alternative
 ├── .gitignore
 ├── data/
-│   ├── raw/               ← zipped SAFE/SLC scenes (use Git LFS or keep outside)
+│   ├── raw/               ← zipped SAFE/SLC scenes
 │   ├── external/          ← DEM, coastline shapefiles
 │   └── processed/         ← outputs (GeoTIFFs, vectors)
 ├── src/
@@ -32,9 +32,6 @@
     ├── usage.md
     └── methodology.md
 ```
-
-*Add or remove folders as your project grows; keep large binaries (>100 MB) in Git LFS or outside the repo.*
-
 ---
 
 ## Quick‑start
@@ -175,11 +172,11 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 If you use this code or figures, please cite:
 
 ```text
-Katayev, E. (2025). SAR Wildfire Burn‑Scar Mapping – Evia 2021 (Version 1.0). GitHub repository. https://github.com/<user>/sar-wildfire-burnscar
+Katayev, E. (2025). SAR Wildfire Burn‑Scar Mapping – Evia 2021 (Version 1.0). GitHub repository. https://github.com/Snawyyy/sar-wildfire-burnscar
 ```
 
 ---
 
 ## Contact
 
-Eitan Katayev – [Etanss9911@gmail.com](mailto:yEtanss9911@gmail.com)
+Eitan Katayev – [Etanss9911@gmail.com](mailto:Etanss9911@gmail.com)
