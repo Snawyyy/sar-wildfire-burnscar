@@ -80,7 +80,7 @@ The chain is implemented with **PyroSAR + SNAP** (via *snappy*) and **GDAL** CL
 
 The final burn‑scar mask rendered over Sentinel‑2 true‑colour is stored in `figures/evia_burnscar_map.png`:
 
-![Evia 2021 Burn Scar](figures/evia_burnscar_map.png)
+![Evia 2021 Burn Scar](figures/Evia Wildfire Burn Scar – July–August 2021.png)
 
 ---
 
