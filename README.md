@@ -37,8 +37,8 @@
 ## Quick‑start
 
 ```bash
-# 1. Clone & initialise submodules (if any)
-git clone https://github.com/<user>/sar-wildfire-burnscar.git
+# 1. Clone
+git clone [https://github.com/Snawyyy/sar-wildfire-burnscar](https://github.com/Snawyyy/sar-wildfire-burnscar).git
 cd sar-wildfire-burnscar
 
 # 2. Create environment
@@ -50,10 +50,15 @@ git lfs pull
 
 # 4. Run the example pipeline
 python src/workflow.py \
-    --master data/raw/S1A_Evia_20210731.zip \
-    --slave  data/raw/S1A_Evia_20210812.zip \
-    --aoi    config/evia.geojson \
-    --out    data/processed/evia_burnscar.tif
+  # MASTER = PRE-FIRE (Older Date)
+  --master data/raw/s1_data/S1B_IW_GRDH_1SDV_20210731T043051_20210731T043116_028033_035815_29C7.zip \
+  \
+  # SLAVE = POST-FIRE (Newer Date)
+  --slave data/raw/s1_data/S1B_IW_GRDH_1SDV_20210812T043052_20210812T043117_028208_035D7A_71FB.zip \
+  \
+  --aoi config/evia_aoi.geojson \
+  --output data/processed/Evia_Burn_Scar.geojson \
+  --timer
 ```
 
 ---
